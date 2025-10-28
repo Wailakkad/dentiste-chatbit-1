@@ -122,7 +122,8 @@
   import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
   // ✅ Use the variable injected by env.js
-  const webhookUrl = window.env?.N8N_WEBHOOK_URL;
+  const WEBHOOK_URL = import.meta.env.N8N_WEBHOOK_URL;
+;
 
   if (!webhookUrl) {
     console.error("❌ Missing webhook URL. Please set it in env.js");
