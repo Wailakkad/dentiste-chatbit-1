@@ -1,4 +1,0 @@
-# Ignore local environment config
-env.js
-.env.js
-*.env.js
