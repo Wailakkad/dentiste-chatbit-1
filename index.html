@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assistant Dentaire AI 🦷</title>
+
+  <!-- Load Inter Font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Load n8n Chat Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+  <style>
+    /* * Global Configuration for Professional Look 
+     */
+    :root {
+      /* Deep, trustworthy blue as primary brand color */
+      --chat--color--primary: #2C64C6;
+      /* Soft, professional accent teal */
+      --chat--color--secondary: #69C9B4;
+      /* Clean, light background color */
+      --chat--color--light: #F7F9FC;
+      
+      /* Desktop Window Size (fixed for a clean desktop card look) */
+      --chat--window--width: 440px;
+      --chat--window--height: 660px;
+      
+      /* Header Styling */
+      --chat--header--background: var(--chat--color--primary);
+      --chat--header--color: #fff;
+      --chat--header--border-radius: 16px 16px 0 0;
+
+      /* User Message Styling (Primary Color Bubble) */
+      --chat--message--user--background: var(--chat--color--primary);
+      --chat--message--user--color: #ffffff;
+      
+      /* Bot Message Styling (Light Gray/Blue Bubble for Neutrality) */
+      --chat--message--bot--background: #E8F0F7;
+      --chat--message--bot--color: #333333; 
+
+      /* Overall Rounded Corners */
+      --chat--border-radius: 16px;
+    }
+
+    body {
+      background: #E8EDF3; /* Very light, cool gray background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      /* Use Inter as the main UI font */
+      font-family: 'Inter', sans-serif; 
+    }
+
+    h1 {
+      text-align: center;
+      color: #1A365D; /* Darker text for professionalism */
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: #5A7D9D;
+        margin-bottom: 30px;
+        font-size: 0.95rem;
+    }
+
+    /* Apply a modern floating card effect to the chat container on desktop */
+    .chat-wrapper {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      border-radius: 16px;
+      background: #ffffff;
+      padding: 30px;
+      transition: all 0.3s ease;
+      max-width: 480px;
+      width: 90vw; /* Responsive width */
+    }
+    
+    /* Ensure the chat widget itself fits cleanly inside the wrapper */
+    #n8n-chat {
+      margin-top: 0;
+    }
+    
+    /* Responsive adjustments for screens 600px and smaller (Mobile) */
+    @media (max-width: 600px) {
+        .chat-wrapper {
+            padding: 20px 15px;
+            box-shadow: none; /* Less emphasis on mobile */
+            border-radius: 0;
+            height: 100vh;
+            width: 100vw;
+            max-width: none;
+        }
+        body {
+            /* On mobile, align content to the top */
+            align-items: flex-start;
+        }
+        /* Crucial: Force the internal chat window to use viewport units for full mobile screen coverage */
+        :root {
+             --chat--window--width: 100vw;
+             --chat--window--height: 100vh;
+        }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="chat-wrapper">
+    <h1>Assistant Dentaire Virtuel 🦷</h1>
+    <p class="subtitle">Discutez avec notre assistant AI pour poser vos questions ou réserver un rendez-vous.</p>
+    <div id="n8n-chat"></div>
+  </div>
+
+  <!-- n8n Chat Bundle -->
+  <!-- Load the .env.js BEFORE your chat script -->
+<script src="./env.js"></script>
+
+<script type="module">
+  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+  // ✅ Use the variable injected by env.js
+  const webhookUrl = window.env?.N8N_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.error("❌ Missing webhook URL. Please set it in env.js");
+  }
+
+  createChat({
+    webhookUrl: webhookUrl,
+    target: '#n8n-chat',
+    mode: 'window',
+    showWelcomeScreen: false,
+    defaultLanguage: 'fr',
+    initialMessages: [
+      'Bonjour 👋',
+      'Je suis votre assistant dentaire virtuel. Comment puis-je vous aider ?'
+    ],
+    i18n: {
+      fr: {
+        title: 'Assistant Dentaire AI',
+        subtitle: 'Posez vos questions ou prenez un rendez-vous.',
+        getStarted: 'Commencer la discussion',
+        inputPlaceholder: 'Écrivez votre message...',
+      }
+    },
+    enableStreaming: false,
+  });
+</script>
+
+</body>
+</html>
