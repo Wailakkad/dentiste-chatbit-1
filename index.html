@@ -116,21 +116,22 @@
 
   <!-- n8n Chat Bundle -->
   <!-- Load the .env.js BEFORE your chat script -->
-<script src="./env.js"></script>
+
 
 <script type="module">
   import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-  // ✅ Use the variable injected by env.js
-  const WEBHOOK_URL = import.meta.env.N8N_WEBHOOK_URL;
-;
+  // ✅ Vercel automatically injects environment variables at build time
+  const webhookUrl =  import.meta.env.N8N_WEBHOOK_URL;
 
   if (!webhookUrl) {
-    console.error("❌ Missing webhook URL. Please set it in env.js");
+    console.error("❌ Missing webhook URL. Make sure it's set in Vercel → Settings → Environment Variables");
+  } else {
+    console.log("✅ Webhook URL loaded:", webhookUrl);
   }
 
   createChat({
-    webhookUrl: webhookUrl,
+    webhookUrl,
     target: '#n8n-chat',
     mode: 'window',
     showWelcomeScreen: false,
@@ -150,6 +151,7 @@
     enableStreaming: false,
   });
 </script>
+
 
 </body>
 </html>
