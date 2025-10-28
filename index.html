@@ -118,39 +118,42 @@
   <!-- Load the .env.js BEFORE your chat script -->
 
 
-<script type="module">
-  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+<script>
+  // ✅ Read env from Vercel at runtime
+  const webhookUrl = "%N8N_WEBHOOK_URL%" || window.N8N_WEBHOOK_URL;
 
-  // ✅ Vercel automatically injects environment variables at build time
-  const webhookUrl =  import.meta.env.N8N_WEBHOOK_URL;
-
-  if (!webhookUrl) {
+  if (!webhookUrl || webhookUrl.startsWith('%')) {
     console.error("❌ Missing webhook URL. Make sure it's set in Vercel → Settings → Environment Variables");
   } else {
     console.log("✅ Webhook URL loaded:", webhookUrl);
   }
 
-  createChat({
-    webhookUrl,
-    target: '#n8n-chat',
-    mode: 'window',
-    showWelcomeScreen: false,
-    defaultLanguage: 'fr',
-    initialMessages: [
-      'Bonjour 👋',
-      'Je suis votre assistant dentaire virtuel. Comment puis-je vous aider ?'
-    ],
-    i18n: {
-      fr: {
-        title: 'Assistant Dentaire AI',
-        subtitle: 'Posez vos questions ou prenez un rendez-vous.',
-        getStarted: 'Commencer la discussion',
-        inputPlaceholder: 'Écrivez votre message...',
-      }
-    },
-    enableStreaming: false,
-  });
+  (async () => {
+    const { createChat } = await import('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js');
+
+    createChat({
+      webhookUrl,
+      target: '#n8n-chat',
+      mode: 'window',
+      showWelcomeScreen: false,
+      defaultLanguage: 'fr',
+      initialMessages: [
+        'Bonjour 👋',
+        'Je suis votre assistant dentaire virtuel. Comment puis-je vous aider ?'
+      ],
+      i18n: {
+        fr: {
+          title: 'Assistant Dentaire AI',
+          subtitle: 'Posez vos questions ou prenez un rendez-vous.',
+          getStarted: 'Commencer la discussion',
+          inputPlaceholder: 'Écrivez votre message...'
+        }
+      },
+      enableStreaming: false,
+    });
+  })();
 </script>
+
 
 
 </body>

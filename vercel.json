@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "N8N_WEBHOOK_URL": "@n8n_webhook_url"
+    }
+  }
+}
