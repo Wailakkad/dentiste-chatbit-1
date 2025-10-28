@@ -29,15 +29,20 @@
       /* Header Styling */
       --chat--header--background: var(--chat--color--primary);
       --chat--header--color: #fff;
-      --chat--header--border-radius: 16px 16px 0 0;
+      /* Adjusted radius to match the overall chat window radius for a seamless look */
+      --chat--header--border-radius: var(--chat--border-radius) var(--chat--border-radius) 0 0; 
 
       /* User Message Styling (Primary Color Bubble) */
       --chat--message--user--background: var(--chat--color--primary);
       --chat--message--user--color: #ffffff;
+      /* Slightly more rounded user message corners */
+      --chat--message--user--border-radius: 18px 18px 0 18px;
       
       /* Bot Message Styling (Light Gray/Blue Bubble for Neutrality) */
       --chat--message--bot--background: #E8F0F7;
       --chat--message--bot--color: #333333; 
+      /* Slightly more rounded bot message corners */
+      --chat--message--bot--border-radius: 18px 18px 18px 0;
 
       /* Overall Rounded Corners */
       --chat--border-radius: 16px;
@@ -84,16 +89,29 @@
       margin-top: 0;
     }
     
+    /* Custom style to make Avatars fully circular for a clean look */
+    #n8n-chat .chat-avatar {
+        border-radius: 50%;
+    }
+
     /* Responsive adjustments for screens 600px and smaller (Mobile) */
     @media (max-width: 600px) {
         .chat-wrapper {
-            padding: 20px 15px;
+            /* Adjusted padding: 0px top/bottom, 15px left/right for better fit */
+            padding: 0 15px; 
             box-shadow: none; /* Less emphasis on mobile */
             border-radius: 0;
             height: 100vh;
             width: 100vw;
             max-width: none;
         }
+        
+        /* Reduce margin below elements that are outside the chat widget on mobile */
+        h1, .subtitle {
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
         body {
             /* On mobile, align content to the top */
             align-items: flex-start;
@@ -140,8 +158,8 @@
     ],
     i18n: {
       fr: {
-        title: 'Assistant Dentaire AI',
-        subtitle: 'Posez vos questions ou prenez un rendez-vous.',
+        title: 'Assistant Dentaire 🦷',
+        subtitle: '',
         getStarted: 'Commencer la discussion',
         inputPlaceholder: 'Écrivez votre message...',
       }
